@@ -1,0 +1,28 @@
+This DAX (Data Analysis Expressions) code is defining a calculated column or measure for a moving average of the 'Close' prices in a table named 'Apple' in Power BI or another similar tool. Let me break down the code for you:
+
+
+Moving Average 50 = 
+    CALCULATE(
+        AVERAGE('Apple'[Close]),
+        FILTER(
+            ALL('Apple'),
+            'Apple'[Date] >= MAX('Apple'[Date]) - 49 &&
+            'Apple'[Date] <= MAX('Apple'[Date])
+        )
+    )
+
+Here's a step-by-step explanation:
+
+    - CALCULATE: This function is used to evaluate an expression in a context modified by filters.
+
+    - AVERAGE('Apple'[Close]): This is the expression to be evaluated. It calculates the average of the 'Close' column in the 'Apple' table.
+
+    - FILTER(ALL('Apple'), ...): This function is used to create a table that is a subset of the 'Apple' table, based on the specified conditions.
+
+    - ALL('Apple'): This removes all filters from the 'Apple' table. It essentially considers all rows in the 'Apple' table.
+
+    - 'Apple'[Date] >= MAX('Apple'[Date]) - 49 && 'Apple'[Date] <= MAX('Apple'[Date]): This is the condition used to filter the rows. It selects only those rows where the 'Date' is within the last 50 days from the maximum date in the current context.
+
+    - Finally, the AVERAGE function calculates the average of the 'Close' prices for the selected subset of rows, effectively giving you the 50-day moving average.
+
+So, the entire code is creating a measure (or calculated column) called 'Moving Average 50' that calculates the 50-day moving average of the 'Close' prices in the 'Apple' table.

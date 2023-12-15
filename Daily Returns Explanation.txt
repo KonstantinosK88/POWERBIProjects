@@ -1,0 +1,25 @@
+Daily Returns = (Stock Price / Previous Day's Stock Price) - 1
+
+Let's break down the DAX formula step by step:
+
+Daily Returns = 
+DIVIDE(
+    MAX('Apple'[Close]) - CALCULATE(MAX('Apple'[Close]), 'Apple'[Date] = MAX('Apple'[Date]) - 1),
+    CALCULATE(MAX('Apple'[Close]), 'Apple'[Date] = MAX('Apple'[Date]) - 1)
+)
+
+   - MAX('Apple'[Close]): This part of the formula calculates the maximum (latest) closing price in the 'Close' column of the 'Apple' table.
+
+   - CALCULATE(MAX('Apple'[Close]), 'Apple'[Date] = MAX('Apple'[Date]) - 1): This part calculates the maximum closing price for the previous day. 
+     It uses the CALCULATE function to modify the context of the calculation. It finds the maximum closing price where the date is equal to the 
+     maximum date minus 1 day.
+
+   - MAX('Apple'[Close]) - CALCULATE(MAX('Apple'[Close]), 'Apple'[Date] = MAX('Apple'[Date]) - 1): This subtracts the closing price of the previous 
+     day from the closing price of the current day.
+
+   - DIVIDE(..., CALCULATE(MAX('Apple'[Close]), 'Apple'[Date] = MAX('Apple'[Date]) - 1)): The DIVIDE function is used to handle potential division 
+     by zero. It divides the result from step 3 by the closing price of the previous day.
+
+In summary, the formula calculates the daily return by taking the difference between the closing price of the current day and the closing price of 
+the previous day, and then dividing it by the closing price of the previous day. This gives the daily return as a decimal, which can be converted 
+to a percentage by multiplying by 100 if needed. The use of the MAX function is a common approach to get the latest values in a column.
